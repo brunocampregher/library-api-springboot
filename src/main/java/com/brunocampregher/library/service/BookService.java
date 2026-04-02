@@ -35,11 +35,11 @@ public class BookService {
     return bookRepository.findAll();
   }
 
-  public void deleteBook(Book book) {
-    if (!bookRepository.existsById(book.getId())) {
+  public void deleteBook(Long id) {
+    if (!bookRepository.existsById(id)) {
       throw new RuntimeException("Book not found.");
     }
 
-    bookRepository.deleteById(book.getId());
+    bookRepository.deleteById(id);
   }
 }

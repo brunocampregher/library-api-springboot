@@ -27,15 +27,15 @@ public class AuthorService {
     return authorRepository.save(author);
   }
 
-  public List<Author> getAuthor() {
+  public List<Author> getAuthors() {
     return authorRepository.findAll();
   }
 
-  public void deleteAuthor(Author author) {
-    if (!authorRepository.existsById(author.getId())) {
+  public void deleteAuthor(Long id) {
+    if (!authorRepository.existsById(id)) {
       throw new RuntimeException("Author not found.");
     }
 
-    authorRepository.deleteById(author.getId());
+    authorRepository.deleteById(id);
   }
 }

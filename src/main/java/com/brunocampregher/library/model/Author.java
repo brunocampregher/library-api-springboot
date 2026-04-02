@@ -3,6 +3,8 @@ package com.brunocampregher.library.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 
 import lombok.Getter;
@@ -25,6 +27,7 @@ public class Author {
   private String nacionality;
 
   @OneToMany(mappedBy = "author")
+  @JsonIgnore
   private List<Book> books = new ArrayList<>();
 
 }
