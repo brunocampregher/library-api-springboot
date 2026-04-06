@@ -3,6 +3,7 @@ package com.brunocampregher.library.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
@@ -17,6 +18,9 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Student {
   private Long id;
+
+  @Column(unique = true, nullable = false)
+  private String dni;
 
   private String name;
   private String surname;

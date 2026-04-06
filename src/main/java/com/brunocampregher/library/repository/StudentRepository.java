@@ -7,5 +7,5 @@ import com.brunocampregher.library.model.Student;
 
 @Repository
 public interface StudentRepository extends JpaRepository<Student, Long> {
-  
+  boolean existsByDni(String dni);
 }
