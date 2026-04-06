@@ -2,6 +2,8 @@ package com.brunocampregher.library.service;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.brunocampregher.library.model.Book;
 import com.brunocampregher.library.model.Loan;
 import com.brunocampregher.library.model.Student;
@@ -9,6 +11,9 @@ import com.brunocampregher.library.repository.BookRepository;
 import com.brunocampregher.library.repository.LoanRepository;
 import com.brunocampregher.library.repository.StudentRepository;
 
+import jakarta.transaction.Transactional;
+
+@Service
 public class LoanService {
   private final LoanRepository loanRepository;
   private final StudentRepository studentRepository;
@@ -20,7 +25,8 @@ public class LoanService {
     this.bookRepository = bookRepository;
   }
 
-  public Loan createLoan(Loan loan, Long studentId, Long bookId) {
+  @Transactional
+  public Loan createLoan(Long studentId, Long bookId) {
     Book book = bookRepository.findById(bookId).orElseThrow(() -> new RuntimeException("Book not found."));
 
     if (book.getStock() <= 0) {
@@ -37,6 +43,12 @@ public class LoanService {
 
     student.setLoanCount(student.getLoanCount() + 1);
 
+    bookRepository.save(book);
+
+    studentRepository.save(student);
+
+    Loan loan = new Loan();
+
     loan.setStudent(student);
 
     loan.setBook(book);
@@ -50,6 +62,7 @@ public class LoanService {
     return loanRepository.findAll();
   }
 
+  @Transactional
   public void deleteLoan(Long id) {
     Loan loan = loanRepository.findById(id).orElseThrow(() -> new RuntimeException("Loan not found."));
 
@@ -66,6 +79,12 @@ public class LoanService {
     student.setLoanCount(student.getLoanCount() - 1);
 
     loan.setActive(false);
+
+    bookRepository.save(book);
+    
+    studentRepository.save(student);
+
+    loanRepository.save(loan);
 
   }
 }
